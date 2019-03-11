@@ -15,8 +15,8 @@ import java.util.List;
  */
 @Service
 @Profile("map")
-
-public class ProductServiceImpl extends AbstractMapService implements ProductService {
+@Primary
+public class ProductServiceImpl2 extends AbstractMapService implements ProductService {
 
     @Override
     public List<DomainObject> listAll() {
@@ -88,5 +88,14 @@ public class ProductServiceImpl extends AbstractMapService implements ProductSer
         product5.setImageUrl("http://example.com/product6");
 
         domainMap.put(6, product6);
+
+        Product product7 = new Product();
+        product5.setId(7);
+        product5.setDescription("Product 7");
+        product5.setPrice(new BigDecimal("28.99"));
+        product5.setImageUrl("http://example.com/product7");
+
+        domainMap.put(7, product7);
     }
 }
+
