@@ -1,6 +1,8 @@
 package guru.springframework.bootstrap;
 
+import guru.springframework.domain.Customer;
 import guru.springframework.domain.Product;
+import guru.springframework.services.CustomerService;
 import guru.springframework.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -17,14 +19,48 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
     private ProductService productService;
 
+    private CustomerService customerService;
+
     @Autowired
     public void setProductService(ProductService productService) {
         this.productService = productService;
     }
 
+
+    @Autowired
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadProducts();
+        loadCustomers();
+    }
+
+    public void loadCustomers(){
+
+        Customer customer1 = new Customer();
+        customer1.setFirstName("Jane");
+        customer1.setLastName("Doe");
+        customer1.setEmail("jdoe@gmail.com");
+        customer1.setPhoneNumber("202-000-1111");
+        customer1.setAddressLine1("1045, North Vermont Street");
+        customer1.setCity("Arlington");
+        customer1.setState("VA");
+        customer1.setZipCode("22201");
+        customerService.saveOrUpdate(customer1);
+
+        Customer customer2 = new Customer();
+        customer2.setFirstName("John");
+        customer2.setLastName("Smith");
+        customer2.setEmail("jsmith@gmail.com");
+        customer2.setPhoneNumber("480-222-1111");
+        customer2.setAddressLine1("1145, South Vermont Street");
+        customer2.setCity("Arlington");
+        customer2.setState("AZ");
+        customer2.setZipCode("99999");
+        customerService.saveOrUpdate(customer2);
 
     }
 
