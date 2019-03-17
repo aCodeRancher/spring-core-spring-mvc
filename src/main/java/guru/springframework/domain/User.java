@@ -17,13 +17,13 @@ public class User implements DomainObject {
 
     private String username;
 
-    @Transient
+    //@Transient
     private String password;
 
     private String encryptedPassword;
     private Boolean enabled = true;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToOne (cascade = CascadeType.PERSIST,mappedBy="user")
     private Customer customer;
 
     @Override

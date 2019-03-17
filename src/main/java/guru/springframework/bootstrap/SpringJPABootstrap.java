@@ -2,8 +2,10 @@ package guru.springframework.bootstrap;
 
 import guru.springframework.domain.Customer;
 import guru.springframework.domain.Product;
+import guru.springframework.domain.User;
 import guru.springframework.services.CustomerService;
 import guru.springframework.services.ProductService;
+import guru.springframework.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -19,6 +21,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
     private ProductService productService;
     private CustomerService customerService;
+    private UserService userService;
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -28,6 +31,11 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     @Autowired
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -47,6 +55,14 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         customer1.setZipCode("33101");
         customer1.setEmail("micheal@burnnotice.com");
         customer1.setPhoneNumber("305.333.0101");
+        User user1 = new User();
+        user1.setUsername("mweston");
+        user1.setPassword("MyAwesomePassword");
+
+        user1.setCustomer(customer1) ;
+
+        userService.saveOrUpdate(user1);
+        customer1.setUser(user1);
         customerService.saveOrUpdate(customer1);
 
         Customer customer2 = new Customer();
@@ -58,7 +74,12 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         customer2.setZipCode("33101");
         customer2.setEmail("fiona@burnnotice.com");
         customer2.setPhoneNumber("305.323.0233");
-        customerService.saveOrUpdate(customer2);
+        User user2 = new User();
+        user2.setUsername("fglenanne");
+        user2.setPassword("MyAwesomePassword");
+
+        user2.setCustomer(customer2);
+        userService.saveOrUpdate(user2);
 
         Customer customer3 = new Customer();
         customer3.setFirstName("Sam");
@@ -69,7 +90,12 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         customer3.setZipCode("33101");
         customer3.setEmail("sam@burnnotice.com");
         customer3.setPhoneNumber("305.426.9832");
-        customerService.saveOrUpdate(customer3);
+        User user3 = new User();
+        user3.setUsername("saxe");
+        user3.setPassword("MyAwesomePassword");
+
+        user3.setCustomer(customer3);
+        userService.saveOrUpdate(user3);
     }
 
     public void loadProducts(){

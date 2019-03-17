@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by jt on 11/17/15.
  */
@@ -29,6 +29,7 @@ public class CustomerControllerTest {
 
     @InjectMocks
     private CustomerController customerController;
+
 
     private MockMvc mockMvc;
 
