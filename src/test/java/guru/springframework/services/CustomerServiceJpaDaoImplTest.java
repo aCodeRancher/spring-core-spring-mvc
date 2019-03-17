@@ -3,15 +3,21 @@ import guru.springframework.domain.Customer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+//import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import guru.springframework.config.JpaIntegrationConfig;
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(JpaIntegrationConfig.class)
 @ActiveProfiles("jpadao")
 public class CustomerServiceJpaDaoImplTest {
 
@@ -47,10 +53,10 @@ public class CustomerServiceJpaDaoImplTest {
         customer3.setState("VA");
         customer3.setZipCode("22201");
         customerService.saveOrUpdate(customer3);
-        Customer customerReturned = customerService.getById(8);
-        assertEquals(customerReturned.getId(), new Integer(8));
+        Customer customerReturned = customerService.getById(3);
+        assertEquals(customerReturned.getId(), new Integer(3));
         assertEquals(customerReturned.getFirstName(), "Mary");
-        customerService.delete(8);
+        customerService.delete(3);
     }
 
     @Test
@@ -79,8 +85,8 @@ public class CustomerServiceJpaDaoImplTest {
         tempCustomer.setZipCode("22201");
         customerService.saveOrUpdate(tempCustomer);
 
-        Customer customerReturned = customerService.getById(originSize+1);
-        assertEquals(customerReturned.getId(), new Integer(originSize+1));
+        Customer customerReturned = customerService.getById(3);
+        assertEquals(customerReturned.getId(), new Integer(3));
         assertEquals(customerReturned.getFirstName(), "Andy");
         customerService.delete(originSize+1);
         assertEquals(customerService.getById(3), null);
