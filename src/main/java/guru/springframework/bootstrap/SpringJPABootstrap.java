@@ -4,6 +4,7 @@ import guru.springframework.domain.*;
 import guru.springframework.enums.OrderStatus;
 import guru.springframework.services.ProductService;
 import guru.springframework.services.UserService;
+import guru.springframework.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -20,7 +21,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
     private ProductService productService;
     private UserService userService;
-
+    private OrderService orderService;
     @Autowired
     public void setProductService(ProductService productService) {
         this.productService = productService;
@@ -29,6 +30,11 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setCustomerService(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @Override
@@ -54,6 +60,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
                 orderDetail.setProduct(product);
                 orderDetail.setQuantity(1);
                 order.addToOrderDetails(orderDetail);
+                orderService.saveOrUpdate(order);
             });
         });
     }
