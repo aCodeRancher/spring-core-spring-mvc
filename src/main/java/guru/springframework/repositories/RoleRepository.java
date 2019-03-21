@@ -3,5 +3,8 @@ package guru.springframework.repositories;
 import guru.springframework.domain.security.Role;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RoleRepository extends CrudRepository<Role,Integer> {
+/**
+ * Created by jt on 12/21/15.
+ */
+public interface RoleRepository extends CrudRepository<Role, Integer> {
 }
