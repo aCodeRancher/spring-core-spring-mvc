@@ -30,7 +30,7 @@ public class CustomerServiceJpaDaoImplTest {
     @Test
     public void testList() throws Exception {
         List<Customer> customers = (List<Customer>) customerService.listAll();
-
+        assert customers.get(0).getUser().getRoles().get(0).getRole().equals("CUSTOMER");
         assert customers.size() == 3;
 
     }
