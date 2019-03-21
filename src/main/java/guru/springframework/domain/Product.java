@@ -2,6 +2,7 @@ package guru.springframework.domain;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by jt on 11/6/15.
@@ -12,6 +13,8 @@ public class Product extends AbstractDomainClass {
     private String description;
     private BigDecimal price;
     private String imageUrl;
+
+
 
     public String getDescription() {
         return description;
