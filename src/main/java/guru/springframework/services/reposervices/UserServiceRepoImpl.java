@@ -1,4 +1,5 @@
 package guru.springframework.services.reposervices;
+
 import guru.springframework.domain.User;
 import guru.springframework.repositories.UserRepository;
 import guru.springframework.services.UserService;
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by jt on 12/21/15.
+ */
 @Service
-@Profile({"springdatajpa"})
+@Profile("springdatajpa")
 public class UserServiceRepoImpl implements UserService {
 
     private UserRepository userRepository;

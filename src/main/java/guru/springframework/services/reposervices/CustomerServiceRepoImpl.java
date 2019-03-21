@@ -1,8 +1,8 @@
 package guru.springframework.services.reposervices;
 
 import guru.springframework.domain.Customer;
-import guru.springframework.services.CustomerService;
 import guru.springframework.repositories.CustomerRepository;
+import guru.springframework.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by jt on 12/21/15.
+ */
 @Service
-@Profile({"springdatajpa"})
-public class CustomerServiceRepoImpl implements CustomerService{
+@Profile("springdatajpa")
+public class CustomerServiceRepoImpl implements CustomerService {
 
     private CustomerRepository customerRepository;
 
@@ -24,7 +27,7 @@ public class CustomerServiceRepoImpl implements CustomerService{
     @Override
     public List<?> listAll() {
         List<Customer> customers = new ArrayList<>();
-       customerRepository.findAll().forEach(customers::add); //fun with Java 8
+        customerRepository.findAll().forEach(customers::add); //fun with Java 8
         return customers;
     }
 

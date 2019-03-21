@@ -10,9 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by jt on 12/21/15.
+ */
 @Service
-@Profile({"springdatajpa"})
+@Profile("springdatajpa")
 public class OrderServiceRepoImpl implements OrderService {
+
     private OrderRepository orderRepository;
 
     @Autowired
@@ -23,7 +27,7 @@ public class OrderServiceRepoImpl implements OrderService {
     @Override
     public List<?> listAll() {
         List<Order> orders = new ArrayList<>();
-       orderRepository.findAll().forEach(orders::add); //fun with Java 8
+        orderRepository.findAll().forEach(orders::add); //fun with Java 8
         return orders;
     }
 
@@ -41,5 +45,4 @@ public class OrderServiceRepoImpl implements OrderService {
     public void delete(Integer id) {
         orderRepository.delete(id);
     }
-
 }
