@@ -60,7 +60,7 @@ public class ProductController {
             return "product/productform";
         }
 
-        Product savedProduct = productService.saveOrUpdateProductForm(productForm);
+        ProductForm savedProduct = productService.saveOrUpdateProductForm(productForm);
         return "redirect:/product/show/" + savedProduct.getId();
     }
 

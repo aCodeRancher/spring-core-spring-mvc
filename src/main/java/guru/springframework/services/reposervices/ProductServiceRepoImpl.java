@@ -2,6 +2,7 @@ package guru.springframework.services.reposervices;
 
 import guru.springframework.commands.ProductForm;
 import guru.springframework.converters.ProductFormToProduct;
+import guru.springframework.converters.ProductToProductForm;
 import guru.springframework.domain.Product;
 import guru.springframework.repositories.ProductRepository;
 import guru.springframework.services.ProductService;
@@ -22,6 +23,13 @@ public class ProductServiceRepoImpl implements ProductService {
     private ProductRepository productRepository;
 
     private ProductFormToProduct productFormToProduct;
+
+    private ProductToProductForm productToProductForm;
+
+    @Autowired
+    public void setProductToProductForm (ProductToProductForm productToProductForm){
+        this.productToProductForm = productToProductForm;
+    }
 
     @Autowired
     public void setProductFormToProduct (ProductFormToProduct productFormToProduct) {
@@ -51,10 +59,19 @@ public class ProductServiceRepoImpl implements ProductService {
 
 
     @Override
-    public Product saveOrUpdateProductForm(ProductForm productForm) {
-        Product newProduct = productFormToProduct.convert(productForm);
-
-        return saveOrUpdate(newProduct);
+    public ProductForm saveOrUpdateProductForm(ProductForm productForm) {
+        Product aProduct = null;
+        if (productForm.getId() != null){
+            aProduct = this.getById(productForm.getId());
+            aProduct.setVersion(productForm.getVersion());
+            aProduct.setDescription(productForm.getDescription());
+            aProduct.setPrice(productForm.getPrice());
+            aProduct.setImageUrl(productForm.getImageUrl());
+            return productToProductForm.convert(this.saveOrUpdate(aProduct));
+        }
+        else {
+            return productToProductForm.convert(this.saveOrUpdate(productFormToProduct.convert(productForm)));
+        }
     }
     @Override
     public void delete(Integer id) {

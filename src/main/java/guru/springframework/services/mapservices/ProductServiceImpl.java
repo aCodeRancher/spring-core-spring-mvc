@@ -2,6 +2,7 @@ package guru.springframework.services.mapservices;
 
 import guru.springframework.commands.ProductForm;
 import guru.springframework.converters.ProductFormToProduct;
+import guru.springframework.converters.ProductToProductForm;
 import guru.springframework.domain.DomainObject;
 import guru.springframework.domain.Product;
 import guru.springframework.services.ProductService;
@@ -20,11 +21,17 @@ public class ProductServiceImpl extends AbstractMapService implements ProductSer
 
     private ProductFormToProduct productFormToProduct;
 
+    private ProductToProductForm productToProductForm;
+
     @Autowired
     public void setProductFormToProduct (ProductFormToProduct productFormToProduct) {
-        this.productFormToProduct = productFormToProduct ;
+        this.productFormToProduct = productFormToProduct;
     }
 
+    @Autowired
+    public void setProductToProductForm (ProductToProductForm productToProductForm){
+        this.productToProductForm = productToProductForm;
+    }
     @Override
     public List<DomainObject> listAll() {
         return super.listAll();
@@ -41,10 +48,19 @@ public class ProductServiceImpl extends AbstractMapService implements ProductSer
     }
 
     @Override
-    public Product saveOrUpdateProductForm(ProductForm productForm) {
-        Product newProduct = productFormToProduct.convert(productForm);
-
-        return saveOrUpdate(newProduct);
+    public ProductForm saveOrUpdateProductForm(ProductForm productForm) {
+        Product aProduct = null;
+        if (productForm.getId() != null){
+            aProduct = this.getById(productForm.getId());
+            aProduct.setVersion(productForm.getVersion());
+            aProduct.setDescription(productForm.getDescription());
+            aProduct.setPrice(productForm.getPrice());
+            aProduct.setImageUrl(productForm.getImageUrl());
+            return productToProductForm.convert(this.saveOrUpdate(aProduct));
+        }
+        else {
+            return productToProductForm.convert(this.saveOrUpdate(productFormToProduct.convert(productForm)));
+        }
     }
 
     @Override
