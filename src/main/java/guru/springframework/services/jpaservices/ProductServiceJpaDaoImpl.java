@@ -1,10 +1,12 @@
 package guru.springframework.services.jpaservices;
 
+import guru.springframework.commands.ProductForm;
+import guru.springframework.converters.ProductFormToProduct;
 import guru.springframework.domain.Product;
 import guru.springframework.services.ProductService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
 import java.util.List;
 
@@ -14,6 +16,14 @@ import java.util.List;
 @Service
 @Profile("jpadao")
 public class ProductServiceJpaDaoImpl extends AbstractJpaDaoService implements ProductService {
+
+
+    private ProductFormToProduct productFormToProduct;
+
+    @Autowired
+    public void setProductFormToProduct (ProductFormToProduct productFormToProduct) {
+        this.productFormToProduct = productFormToProduct ;
+    }
 
     @Override
     public List<Product> listAll() {
@@ -39,6 +49,14 @@ public class ProductServiceJpaDaoImpl extends AbstractJpaDaoService implements P
 
         return savedProduct;
     }
+
+    @Override
+    public Product saveOrUpdateProductForm(ProductForm productForm) {
+        Product newProduct = productFormToProduct.convert(productForm);
+
+        return saveOrUpdate(newProduct);
+    }
+
 
     @Override
     public void delete(Integer id) {
