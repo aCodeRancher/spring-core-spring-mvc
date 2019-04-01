@@ -13,10 +13,16 @@ import org.springframework.stereotype.Component;
 public class LoginAspect {
 
     private LoginFailureEventPublisher publisher;
+    private LoginSuccessEventPublisher successPublisher;
 
     @Autowired
     public void setPublisher(LoginFailureEventPublisher publisher) {
         this.publisher = publisher;
+    }
+
+    @Autowired
+    public void setSuccessPublisher(LoginSuccessEventPublisher successPublisher) {
+        this.successPublisher = successPublisher;
     }
 
     @Pointcut("execution(* org.springframework.security.authentication.AuthenticationProvider.authenticate(..))")
@@ -34,6 +40,7 @@ public class LoginAspect {
             returning = "authentication")
     public void logAfterAuthenticate( Authentication authentication){
         System.out.println("This is after the Authenticate Method authentication: " + authentication.isAuthenticated());
+        successPublisher.publish(new LoginSuccessEvent(authentication));
     }
 
     @AfterThrowing("guru.springframework.services.security.LoginAspect.doAuthenticate() && args(authentication)")
@@ -42,6 +49,6 @@ public class LoginAspect {
         System.out.println("Login failed for user: " + userDetails);
 
         publisher.publish(new LoginFailureEvent(authentication));
+     }
 
-    }
 }
